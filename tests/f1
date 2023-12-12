@@ -1,0 +1,26 @@
+#!/bin/sh
+
+t=`basename $0`
+
+cat > $t.I <<\EOF
+" /* make sure comment in quote is ignored "
+#if 1
+*/
+#error not
+#endif
+EOF
+
+cat > $t.EO <<\EOF
+" /* make sure comment in quote is ignored "
+#if 1
+*/
+# error not
+#endif
+EOF
+
+cat > $t.Ee <<\EOF
+EOF
+
+expected_status=0
+
+. $srcdir/test-common

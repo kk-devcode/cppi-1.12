@@ -1,0 +1,22 @@
+#!/bin/sh
+
+t=`basename $0`
+
+cat > $t.I <<\EOF
+#if FOO
+#include x
+#endif
+EOF
+
+cat > $t.EO <<\EOF
+EOF
+
+cat > $t.Ee <<\EOF
+cppi: f8.I: line 2: not properly indented
+EOF
+
+redirect_stdin=no
+options="-c"
+expected_status=1
+
+. $srcdir/test-common

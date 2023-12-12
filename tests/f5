@@ -1,0 +1,35 @@
+#!/bin/sh
+
+t=`basename $0`
+
+cat > $t.I <<\EOF
+#if 0
+#ifdef _AIX
+#define	cppi_converts_the_tab_on_this_line_to_a_space
+#define	 cppi_converts_the_tabs_and_spaces_on_this_line_to_a_space
+#include "foo"
+ #pragma alloca
+#pragma alloca
+#endif
+#endif
+EOF
+
+cat > $t.EO <<\EOF
+#if 0
+# ifdef _AIX
+#  define cppi_converts_the_tab_on_this_line_to_a_space
+#  define cppi_converts_the_tabs_and_spaces_on_this_line_to_a_space
+#  include "foo"
+ # pragma alloca
+#  pragma alloca
+# endif
+#endif
+EOF
+
+cat > $t.Ee <<\EOF
+EOF
+
+options=
+expected_status=0
+
+. $srcdir/test-common

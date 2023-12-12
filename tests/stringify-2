@@ -1,0 +1,24 @@
+#!/bin/sh
+
+t=`basename $0`
+
+cat > $t.I <<\EOF
+#if FOO
+# define foo(if) \\
+#if x
+#endif
+EOF
+
+> $t.EO
+
+cat > $t.Ee <<\EOF
+cppi: stringify-2.I: line 3: not properly indented
+cppi: stringify-2.I: line 4: not properly indented
+cppi: stringify-2.I: line 1: unterminated #if
+EOF
+
+redirect_stdin=no
+options="-c"
+expected_status=2
+
+. $srcdir/test-common

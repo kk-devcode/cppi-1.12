@@ -1,0 +1,11 @@
+#!/bin/sh
+
+t=`basename $0`
+
+# Create an empty $t.I.
+touch $t.I $t.EO $t.Ee
+
+options=
+expected_status=0
+
+. $srcdir/test-common

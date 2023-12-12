@@ -1,0 +1,18 @@
+#!/bin/sh
+
+t=`basename $0`
+
+cat > $t.I <<\EOF
+// unterminated "string in C++ comment should not get an error
+EOF
+
+cat > $t.EO <<\EOF
+EOF
+
+cat > $t.Ee <<\EOF
+EOF
+
+options=-c
+expected_status=0
+
+. $srcdir/test-common

@@ -1,0 +1,41 @@
+#!/bin/sh
+
+t=`basename $0`
+
+cat > $t.Iin <<\EOF
+#if(FOO)
+#endif
+
+" /* make sure comment in quote is ignored "
+#if 1
+*/
+#else
+/* This file has no newline at end.  */
+#endif
+EOF
+
+# Remove newline from end of $t.Iin
+tr '\012' @ < $t.Iin |sed 's/@$//' |tr @ '\012' > $t.I
+rm -f $t.Iin
+
+cat > $t.EOin <<\EOF
+#if (FOO)
+#endif
+
+" /* make sure comment in quote is ignored "
+#if 1
+*/
+#else
+/* This file has no newline at end.  */
+#endif
+EOF
+tr '\012' @ < $t.EOin |sed 's/@$//' |tr @ '\012' > $t.EO
+rm -f $t.EOin
+
+cat > $t.Ee <<\EOF
+EOF
+
+options=
+expected_status=0
+
+. $srcdir/test-common

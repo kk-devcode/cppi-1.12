@@ -1,0 +1,7 @@
+#!/bin/sh
+# Make sure that we're not running a binary with a different version.
+
+case `cppi --version | sed 1q` in
+  *' '$PACKAGE_VERSION) ;;
+  *) exit 1;;
+esac

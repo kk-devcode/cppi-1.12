@@ -1,0 +1,12 @@
+#!/bin/sh
+
+t=`basename $0`
+
+echo a| tr a '\300' > $t.I
+cp $t.I $t.EO
+> $t.Ee
+
+redirect_stdin=no
+expected_status=0
+
+. $srcdir/test-common

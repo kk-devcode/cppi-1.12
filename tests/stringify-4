@@ -1,0 +1,21 @@
+#!/bin/sh
+
+t=`basename $0`
+
+cat > $t.I <<\EOF
+#if FOO
+# define foo(if) \
+this is the 2nd line \
+#if this line is not a cpp #if directive, but rather stringifies the `if' \
+argument to the foo macro, `foo'.
+#endif
+EOF
+
+> $t.EO
+> $t.Ee
+
+redirect_stdin=no
+options="-c"
+expected_status=0
+
+. $srcdir/test-common

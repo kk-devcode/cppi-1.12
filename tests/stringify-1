@@ -1,0 +1,24 @@
+#!/bin/sh
+
+t=`basename $0`
+
+cat > $t.I <<\EOF
+#if FOO
+#define foo(if) \
+#if
+#endif
+EOF
+
+cat > $t.EO <<\EOF
+#if FOO
+# define foo(if) \
+#if
+#endif
+EOF
+
+> $t.Ee
+
+redirect_stdin=no
+expected_status=0
+
+. $srcdir/test-common

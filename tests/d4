@@ -1,0 +1,85 @@
+#!/bin/sh
+
+t=`basename $0`
+
+cat > $t.I <<\EOF
+"  string containing otherwise-valid cpp-directive \
+#if
+"
+#if 1
+#error
+#else
+#include "foo"
+#endif
+
+int c = '"';
+char *s = " /* \\";
+#if 1
+#error
+#else
+#include "foo"
+#endif
+
+fprintf(out, "#line 1 \"%s\"\n", argv[1]);
+
+#if 1
+#error
+#else
+#include "foo"
+#endif
+
+char *s = "\"";
+
+#if 1
+#        error
+#else
+#include "foo"
+#endif
+EOF
+
+# ---------------------------------------------------------------------
+
+cat > $t.EO <<\EOF
+"  string containing otherwise-valid cpp-directive \
+#if
+"
+#if 1
+# error
+#else
+# include "foo"
+#endif
+
+int c = '"';
+char *s = " /* \\";
+#if 1
+# error
+#else
+# include "foo"
+#endif
+
+fprintf(out, "#line 1 \"%s\"\n", argv[1]);
+
+#if 1
+# error
+#else
+# include "foo"
+#endif
+
+char *s = "\"";
+
+#if 1
+# error
+#else
+# include "foo"
+#endif
+EOF
+
+# ---------------------------------------------------------------------
+
+cat > $t.Ee <<\EOF
+EOF
+
+options=
+expected_status=0
+
+. $srcdir/test-common

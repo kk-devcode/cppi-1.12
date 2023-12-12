@@ -1,0 +1,24 @@
+#!/bin/sh
+
+t=`basename $0`
+
+cat > $t.I <<\EOF
+#if 0
+
+# define A 1
+
+#define B 1
+#endif
+EOF
+
+cat > $t.EO <<\EOF
+EOF
+
+cat > $t.Ee <<\EOF
+cppi: standard input: line 5: not properly indented
+EOF
+
+options=-c
+expected_status=1
+
+. $srcdir/test-common

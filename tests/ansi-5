@@ -1,0 +1,23 @@
+#!/bin/sh
+
+t=`basename $0`
+
+cat > $t.I <<\EOF
+#if 0
+#else /* multiline comment,
+         *then* text after #else */       this should elicit an error
+#endif
+EOF
+
+cat > $t.EO <<\EOF
+EOF
+
+cat > $t.Ee <<\EOF
+cppi: standard input: line 2: text following `#else' violates ANSI standard
+EOF
+    #`
+
+options='-c --ansi'
+expected_status=1
+
+. $srcdir/test-common

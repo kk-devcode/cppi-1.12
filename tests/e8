@@ -1,0 +1,25 @@
+#!/bin/sh
+
+t=`basename $0`
+
+cat > $t.I <<\EOF
+/*comments with asterisk before newline used to mess up line counting*
+*/
+# if(FOO)
+#endif
+EOF
+
+cat > $t.EO <<\EOF
+EOF
+
+cat > $t.Ee <<\EOF
+cppi: standard input: line 3: not properly indented
+cppi: standard input: line 3: not properly formatted
+There must be exactly one SPACE character after each
+#if, #elif, and #define directive.
+EOF
+
+options=-c
+expected_status=1
+
+. $srcdir/test-common

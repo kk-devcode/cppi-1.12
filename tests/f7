@@ -1,0 +1,30 @@
+#!/bin/sh
+
+t=`basename $0`
+
+cat > $t.I2 <<\EOF
+#if FOO
+#include x
+#endif
+EOF
+
+cat > $t.I <<\EOF
+#if FOO
+#endif
+EOF
+
+cat > $t.EO <<EOF
+$t.I2
+EOF
+
+cat > $t.Ee <<\EOF
+EOF
+
+# Arrange for this additional temp file to be deleted.
+extra_temps=$t.I2
+
+redirect_stdin=no
+options="-l $t.I2"
+expected_status=1
+
+. $srcdir/test-common

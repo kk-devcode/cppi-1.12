@@ -1,0 +1,21 @@
+#!/bin/sh
+
+t=`basename $0`
+
+cat > $t.I <<\EOF
+#if (FOO)
+# error ick
+#endif /*
+#if */
+EOF
+
+cat > $t.EO <<\EOF
+EOF
+
+cat > $t.Ee <<\EOF
+EOF
+
+options='-c --ansi'
+expected_status=0
+
+. $srcdir/test-common

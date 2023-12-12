@@ -1,0 +1,31 @@
+if test "$redirect_stdin" = no; then
+  cppi $options $t.I > $t.O 2> $t.e
+else
+  cppi $options - < $t.I > $t.O 2> $t.e
+fi
+status=$?
+
+fail=0
+if test $status != $expected_status; then
+  echo "unexpected return status: got $status; expected $expected_status"
+  fail=1
+fi
+
+if cmp -s $t.O $t.EO; then
+  :
+else
+  echo "unexpected results on standard output"
+  echo "compare the output files (expected actual): $t.EO $t.O"
+  fail=1
+fi
+
+if cmp -s $t.e $t.Ee; then
+  :
+else
+  echo "unexpected results on standard error"
+  echo "compare the error files (expected actual): $t.Ee $t.e"
+  fail=1
+fi
+
+test $fail = 0 && rm -f $t.I $t.O $t.e $t.EO $t.Ee $extra_temps
+exit $fail

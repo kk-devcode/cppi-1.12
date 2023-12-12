@@ -1,0 +1,19 @@
+#!/bin/sh
+
+t=`basename $0`
+
+cat > $t.I <<\EOF
+#if(FOO)
+EOF
+
+cat > $t.EO <<\EOF
+#if (FOO)
+EOF
+
+cat > $t.Ee <<\EOF
+cppi: standard input: line 1: unterminated #if
+EOF
+
+expected_status=2
+
+. $srcdir/test-common
